@@ -17,9 +17,11 @@
     
   <div class="fixed bottom-0 right-3 flex gap-3">
 
-    @button({ href: '#', class: 'rounded-b-none' }) 
-      FLUSH REDIS DB
-    @end
-
+    <form action="{{ route('redis.flush') }}" method="POST">
+      {{ csrfField() }}
+      @button({ type: 'submit', class: 'rounded-b-none' }) 
+        FLUSH REDIS DB
+      @end
+    </form>
   </div>
 @end
