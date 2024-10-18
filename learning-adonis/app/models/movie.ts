@@ -20,10 +20,10 @@ export default class Movie {
   }
 
   static async find(slug: string) {
-    if (await cache.has(slug)) {
-      console.log(`Cache Hit: ${slug}`)
-      return cache.get(slug)
-    }
+    // if (await cache.has(slug)) {
+    //   console.log(`Cache Hit: ${slug}`)
+    //   return cache.get(slug)
+    // }
     const md = await MovieService.read(slug)
     const movie = new Movie()
     movie.title = md.frontmatter.title
