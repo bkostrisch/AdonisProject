@@ -5,15 +5,18 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const MoviesController = () => import('#controllers/movies_controller')
 
-router.get('/', [MoviesController, 'index']).as('home')
+router.get('/', [HomeController, 'index']).as('home')
 
 router
   .get('/movies/:slug', [MoviesController, 'show'])
   .as('movies.show')
   .where('slug', router.matchers.slug())
+
+router.get('/movies', [MoviesController, 'index']).as('movies.index')
 
 router.get('/directors', [DirectorsController, 'index']).as('directors.index')
 

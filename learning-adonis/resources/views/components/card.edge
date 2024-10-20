@@ -2,7 +2,7 @@
 
 <div {{ $props.merge({class: [className]}).except(['movie',]).toAttrs() }}>
     @if($slots.picture)
-        {{{ await $slots.picture() }}}    
+    {{{ await $slots.picture() }}}
     @endif
     <div class="p-4">
         {{{ await $slots.main() }}}
