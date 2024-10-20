@@ -2,7 +2,10 @@ const RedisController = () => import('#controllers/redis_controller')
 const DirectorsController = () => import('#controllers/directors_controller')
 const WritersController = () => import('#controllers/writers_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
+const LoginController = () => import('#controllers/auth/login_controller')
 import router from '@adonisjs/core/services/router'
+import { middleware } from './kernel.js'
+const LogoutController = () => import('#controllers/auth/logout_controller')
 const MoviesController = () => import('#controllers/movies_controller')
 
 router.get('/', [MoviesController, 'index']).as('home')
@@ -26,8 +29,31 @@ router.delete('/redis/:slug', [RedisController, 'destroy']).as('redis.destroy')
 
 router
   .group(() => {
-    router.get('/register', [RegisterController, 'show']).as('register.show')
-    router.post('/register', [RegisterController, 'store']).as('register.store')
+    router
+      .get('/register', [RegisterController, 'show'])
+      .as('register.show')
+      .use(middleware.guest())
+    router
+      .post('/register', [RegisterController, 'store'])
+      .as('register.store')
+      .use(middleware.guest())
+
+    router.get('/login', [LoginController, 'show']).as('login.show').use(middleware.guest())
+    router.post('/login', [LoginController, 'store']).as('login.store').use(middleware.guest())
+
+    router.post('/logout', [LogoutController, 'handle']).as('logout').use(middleware.auth())
   })
   .prefix('/auth')
   .as('auth')
+
+router
+  .group(() => {
+    router
+      .get('/', async (ctx) => {
+        return `You are here!, ${ctx.auth.user?.fullName} as ${ctx.auth.user?.roleId} role!`
+      })
+      .as('index')
+  })
+  .prefix('/admin')
+  .as('admin')
+  .use(middleware.admin())
