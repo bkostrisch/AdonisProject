@@ -51,7 +51,8 @@ export default defineConfig({
     () => import('#start/routes'),
     () => import('#start/kernel'),
     () => import('#start/globals'),
-    () => import('#start/rules/unique')
+    () => import('#start/rules/unique'),
+    () => import('#start/rules/exists'),
   ],
 
   /*
@@ -78,7 +79,6 @@ export default defineConfig({
     ],
     forceExit: false,
   },
-
   metaFiles: [
     {
       pattern: 'resources/views/**/*.edge',
@@ -89,9 +89,4 @@ export default defineConfig({
       reloadServer: false,
     },
   ],
-
-  assetsBundler: false,
-  hooks: {
-    onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
-  },
 })
