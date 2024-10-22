@@ -14,9 +14,9 @@ const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const MoviesController = () => import('#controllers/movies_controller')
 
-router.get('/', [HomeController, 'index']).as('home')
+router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 
-router.get('/storage/*', [StorageController, 'show']).as('storage.show')
+router.get('/storage/*', [StorageController, 'show']).as('storage.show').use(middleware.admin())
 
 router
   .get('/movies/:slug', [MoviesController, 'show'])
@@ -34,23 +34,34 @@ router
   .as('watchlists')
   .use(middleware.auth())
 
-router.get('/movies', [MoviesController, 'index']).as('movies.index')
+router.get('/movies', [MoviesController, 'index']).as('movies.index').use(middleware.auth())
 
-router.get('/directors', [DirectorsController, 'index']).as('directors.index')
+router
+  .get('/directors', [DirectorsController, 'index'])
+  .as('directors.index')
+  .use(middleware.auth())
 
-router.get('/directors/:id', [DirectorsController, 'show']).as('directors.show')
+router
+  .get('/directors/:id', [DirectorsController, 'show'])
+  .as('directors.show')
+  .use(middleware.auth())
 
-router.get('/writers', [WritersController, 'index']).as('writers.index')
+router.get('/writers', [WritersController, 'index']).as('writers.index').use(middleware.auth())
 
-router.get('/writers/:id', [WritersController, 'show']).as('writers.show')
+router.get('/writers/:id', [WritersController, 'show']).as('writers.show').use(middleware.auth())
 
-router.delete('/redis/flush', [RedisController, 'flush']).as('redis.flush')
+router.delete('/redis/flush', [RedisController, 'flush']).as('redis.flush').use(middleware.auth())
 
-router.delete('/redis/:slug', [RedisController, 'destroy']).as('redis.destroy')
+router
+  .delete('/redis/:slug', [RedisController, 'destroy'])
+  .as('redis.destroy')
+  .use(middleware.auth())
 
 router.get('/profile/edit', [ProfilesController, 'edit']).as('profiles.edit').use(middleware.auth())
 router.put('/profiles', [ProfilesController, 'update']).as('profiles.update').use(middleware.auth())
-router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show')
+router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show').use(middleware.auth())
+
+router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
 
 router
   .group(() => {
@@ -63,7 +74,6 @@ router
       .as('register.store')
       .use(middleware.guest())
 
-    router.get('/login', [LoginController, 'show']).as('login.show').use(middleware.guest())
     router.post('/login', [LoginController, 'store']).as('login.store').use(middleware.guest())
 
     router.post('/logout', [LogoutController, 'handle']).as('logout').use(middleware.auth())

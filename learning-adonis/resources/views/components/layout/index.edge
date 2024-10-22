@@ -15,7 +15,11 @@
 
 <body>
   <div class="max-w-3xl mx-auto mt-6">
-    @include('partials/nav')
+    @if (auth.user)
+      @include('partials/nav')
+    @else
+      @include('partials/main_nav')
+    @end 
 
     {{{ await $slots.main() }}}
   </div>
