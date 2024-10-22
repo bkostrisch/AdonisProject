@@ -1,4 +1,3 @@
-import { column } from '@adonisjs/lucid/orm'
 import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
 
@@ -23,5 +22,21 @@ export const movieValidator = vine.compile(
         if (!value) return
         return DateTime.fromJSDate(value)
       }),
+    crew: vine
+      .array(
+        vine.object({
+          id: vine.number().isExists({ table: 'cineasts', column: 'id' }),
+          title: vine.string(),
+        })
+      )
+      .optional(),
+    cast: vine
+      .array(
+        vine.object({
+          id: vine.number().isExists({ table: 'cineasts', column: 'id' }),
+          character_name: vine.string(),
+        })
+      )
+      .optional(),
   })
 )
