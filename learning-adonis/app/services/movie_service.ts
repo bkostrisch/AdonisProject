@@ -8,7 +8,6 @@ import { MultipartFile } from '@adonisjs/core/bodyparser'
 import { cuid } from '@adonisjs/core/helpers'
 import app from '@adonisjs/core/services/app'
 import { movieValidator } from '#validators/movie'
-import Roles from '#enums/roles'
 
 type MovieSortOption = {
   id: string
@@ -47,11 +46,9 @@ export default class MovieService {
   }
 
   static async getFormData() {
-    const STUDENT_ROLE = 1
     const statuses = await MovieStatus.query().orderBy('name')
-    const students = await User.query().where('role_id', STUDENT_ROLE)
     const cineasts = await Cineast.query()
-    return { statuses, cineasts, students }
+    return { statuses, cineasts }
   }
 
   static async storePoster(poster: MultipartFile) {

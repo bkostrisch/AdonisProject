@@ -6,8 +6,19 @@
 
 @if(auth.user.roleId === Roles.ADMIN)
 
-<form method="GET" action="{{ route('home') }}">
-  <div class="flex items-end gap-3 pt-4">
+<h1>Dashboard</h1>
+
+<div class="flex items-center justify-around gap-4 flex-wrap pt-5">
+  @!stat({ label: 'Your Classes', value: moviesCount })
+  @!stat({ label: 'Total Students', value: writersCount })
+  @!stat({ label: 'Classes Watched', value: watchedMoviesCount })
+</div>
+
+<form method="GET" action="{{ route('home') }}" class="pt-10">
+
+<h1> {{auth.user.fullName}}'s Classes </h1>
+
+  <div class="flex items-end gap-3 pb-6">
     @!form.input({
     label: 'Title Search',
     name: 'search',
@@ -38,7 +49,6 @@
 
   </div>
 </form>
-<h1> Classes </h1>
 <div class="flex flex-wrap -mx-6">
 
   @each (movie in movies)

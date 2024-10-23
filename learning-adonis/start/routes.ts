@@ -1,18 +1,18 @@
+import router from '@adonisjs/core/services/router'
+import { middleware } from './kernel.js'
 const RedisController = () => import('#controllers/redis_controller')
 const DirectorsController = () => import('#controllers/directors_controller')
 const WritersController = () => import('#controllers/writers_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
-import router from '@adonisjs/core/services/router'
-import { middleware } from './kernel.js'
 const TokenLoginController = () => import('#controllers/auth/token_login_controller')
-const AdminMoviesController = () => import('#controllers/admin/movies_controller')
-const AdminDashboardController = () => import('#controllers/admin/dashboard_controller')
+const AdminClassesControler = () => import('#controllers/admin/movies_controller')
 const StorageController = () => import('#controllers/storage_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
 const WatchlistsController = () => import('#controllers/watchlists_controller')
 const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
+const CoursesController = () => import('#controllers/courses_controller')
 
 router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 
@@ -61,6 +61,8 @@ router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show').us
 
 router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
 
+router.get('/testing', [CoursesController, 'create']).as('testing').use(middleware.auth())
+
 router.get('auth/token', [TokenLoginController, 'show']).as('login.token').use(middleware.guest())
 
 router
@@ -93,9 +95,7 @@ router
 
 router
   .group(() => {
-    router.get('/', [AdminDashboardController, 'handle']).as('dashboard')
-
-    router.resource('movies', AdminMoviesController)
+    router.resource('movies', AdminClassesControler)
   })
   .prefix('/admin')
   .as('admin')

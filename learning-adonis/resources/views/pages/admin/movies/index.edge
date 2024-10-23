@@ -1,10 +1,10 @@
 @layout.admin()
 <div class="flex justify-between items-center gap-4">
-    <h1>Movies</h1>
+    <h1>Classes</h1>
 
     <div>
         @button({ href: route('admin.movies.create') })
-        Create Movie
+        Create Class
         @end
     </div>
 </div>
@@ -26,8 +26,7 @@
                 <td class="px-2 py-4">{{ movie.title }}</td>
                 <td class="px-2 py-4">{{ movie.status.name }}</td>
                 <td class="px-2 py-4">
-                    <div>Writer: {{ movie.writer.fullName }}</div>
-                    <div>Director: {{ movie.director.fullName }}</div>
+                    <div>Producer: {{ movie.writer.fullName }}</div>
                 </td>
                 <td class="px-2 py-4">
                     <div>Cast Members: {{ movie.$extras.castMembers_count }}</div>

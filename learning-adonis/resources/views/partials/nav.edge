@@ -1,9 +1,9 @@
 <nav class="flex justify-between items-center">
     <div>
         <a href="{{ route('home') }}">Home</a>
-        {{-- <a href="{{ route('movies.index') }}">Movies</a>
-        <a href="{{ route('directors.index') }}">Directors</a>
-        <a href="{{ route('writers.index') }}">Writers</a> --}}
+        @if(auth.user.roleId === Roles.ADMIN)
+        <a href="{{ route('admin.movies.index') }}">Classes</a>
+        @endif
     </div>
     <div>
 
@@ -19,16 +19,13 @@
             <a href="{{ route('profiles.edit') }}" class="text-xs">
                 Edit Profile
             </a>
-
-            @if(auth.user.roleId === Roles.ADMIN)
-                <a href="{{ route('admin.dashboard') }}" class="text-xs">Admin</a>
-            @endif
+           
 
             <form method="POST" action="{{ route('auth.logout') }}">
 
                 {{ csrfField() }}
                 <button type="submit" class="text-xs">
-                    Logout {{ auth.user.fullName }}
+                    Logout as {{ auth.user.fullName }}
                 </button>
 
             </form>

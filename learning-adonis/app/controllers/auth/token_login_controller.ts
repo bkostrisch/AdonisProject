@@ -1,4 +1,3 @@
-import TokenType from '#enums/token'
 import AuthToken from '#models/auth_token'
 import User from '#models/user'
 import AuthTokenService from '#services/auth_token_service'
@@ -6,8 +5,6 @@ import MailService from '#services/mail_service'
 import { emailValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
-import { DateTime } from 'luxon'
-import { v4 as uuidv4 } from 'uuid'
 
 @inject()
 export default class TokenLoginController {
