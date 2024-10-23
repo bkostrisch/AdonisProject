@@ -10,10 +10,7 @@ export default class Cineast extends BaseModel {
   declare id: number
 
   @column()
-  declare firstName: string
-
-  @column()
-  declare lastName: string
+  declare fullName: string
 
   @column()
   declare headshotUrl: string
@@ -23,11 +20,6 @@ export default class Cineast extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
-
-  @computed()
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`
-  }
 
   @hasMany(() => Movie, {
     foreignKey: 'directorId',

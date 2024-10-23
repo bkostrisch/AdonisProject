@@ -113,7 +113,7 @@
                         <span class="text-xs font-bold">Cast Member</span>
 
                         <select :name="`cast[${index}][id]`" x-model="members[index].cineast_id">
-                            @each(cineast in cineasts)
+                            @each(cineast in students)
                             <option value="{{ cineast.id }}">
                                 {{ cineast.fullName }}
                             </option>
@@ -141,6 +141,7 @@
     {{ movie ? 'Update' : 'Create' }} Movie
     @end
 </form>
+
 
 <script src="//unpkg.com/alpinejs" defer></script>
 @end

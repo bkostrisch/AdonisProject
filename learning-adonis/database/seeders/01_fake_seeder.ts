@@ -1,7 +1,6 @@
-import { movies } from '#database/data/movies'
-import { CineastFactory } from '#database/factories/cineast_factory'
-import { MovieFactory } from '#database/factories/movie_factory'
-import { UserFactory } from '#database/factories/user_factory'
+import { movies } from '../../data/movies.js'
+import { CineastFactory } from '../../factories/cineast_factory.js'
+import { MovieFactory } from '../../factories/movie_factory.js'
 import MovieStatuses from '#enums/movie_statuses'
 import Cineast from '#models/cineast'
 import Movie from '#models/movie'
@@ -11,11 +10,10 @@ import { DateTime } from 'luxon'
 
 export default class extends BaseSeeder {
   static environment = ['development']
-
-  title: string[] = [
+  titles: string[] = [
     'Camera Operator',
     'Art Director',
-    'MakeUp',
+    'Hair & Makeup',
     'Production Manager',
     'Wardrobe',
     'Line Producer',
@@ -25,8 +23,8 @@ export default class extends BaseSeeder {
   ]
 
   async run() {
-    const cineasts = await CineastFactory.createMany(100)
-    await UserFactory.with('profile').createMany(5)
+    // Write your database queries inside the run method
+    const cineasts = await CineastFactory.createMany(2)
     await this.#createMovies(cineasts)
   }
 
@@ -46,6 +44,7 @@ export default class extends BaseSeeder {
           to: released.endOf('year').toJSDate(),
         })
       )
+
       index++
     }).createMany(movies.length)
 
@@ -56,9 +55,11 @@ export default class extends BaseSeeder {
     movieRecords = movieRecords.concat(
       await MovieFactory.with('director').with('writer').apply('released').createMany(2)
     )
+
     movieRecords = movieRecords.concat(
       await MovieFactory.with('director').with('writer').apply('releasingSoon').createMany(2)
     )
+
     movieRecords = movieRecords.concat(
       await MovieFactory.with('director').with('writer').apply('postProduction').createMany(2)
     )
@@ -73,12 +74,14 @@ export default class extends BaseSeeder {
 
   async #attachRandomCrewMembers(movie: Movie, cineasts: Cineast[], number: number) {
     const ids = this.#getRandom(cineasts, number).map(({ id }) => id)
+
     return movie.related('crewMembers').attach(
       ids.reduce<Record<string, ModelObject>>((obj, id, i) => {
         obj[id] = {
-          title: this.#getRandom(this.title, 1)[0],
+          title: this.#getRandom(this.titles, 1)[0],
           sort_order: i,
         }
+
         return obj
       }, {})
     )
@@ -87,12 +90,14 @@ export default class extends BaseSeeder {
   async #attachRandomCastMembers(movie: Movie, cineasts: Cineast[], number: number) {
     const ids = this.#getRandom(cineasts, number).map(({ id }) => id)
     const records = await CineastFactory.makeStubbedMany(number)
+
     return movie.related('castMembers').attach(
       ids.reduce<Record<string, ModelObject>>((obj, id, i) => {
         obj[id] = {
           character_name: records[i].fullName,
           sort_order: i,
         }
+
         return obj
       }, {})
     )

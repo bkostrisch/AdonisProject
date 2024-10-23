@@ -8,17 +8,17 @@
 
   <dl class="text-sm py-4">
     <div class="flex">
-      <dt class="w-24">Writer:</dt>
+      <dt class="w-24">Class:</dt>
       <dd>
-        <a href="{{ route('writers.show', { id: movie.writer.id } ) }}">
+        <a>
           {{ movie.writer.fullName }}
         </a>
       </dd>
     </div>
     <div class="flex">
-      <dt class="w-24">Director:</dt>
+      <dt class="w-24">Producer:</dt>
       <dd>
-        <a href="{{ route('directors.show', { id: movie.director.id } ) }}">
+        <a>
           {{ movie.director.fullName }}
         </a>
       </dd>

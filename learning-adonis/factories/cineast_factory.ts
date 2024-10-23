@@ -5,8 +5,7 @@ import { MovieFactory } from './movie_factory.js'
 export const CineastFactory = factory
   .define(Cineast, async ({ faker }) => {
     return {
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
+      fullName: faker.person.fullName(),
       headshotUrl: faker.image.avatar(),
     }
   })

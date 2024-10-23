@@ -41,6 +41,7 @@
     "@japa/plugin-adonisjs": "^3.0.1",
     "@japa/runner": "^3.1.4",
     "@swc/core": "1.7.26",
+    "@types/form-data": "^2.2.1",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.7.5",
     "autoprefixer": "^10.4.20",
@@ -57,7 +58,9 @@
   "dependencies": {
     "@adonisjs/auth": "^9.2.3",
     "@adonisjs/core": "^6.14.1",
+    "@adonisjs/env": "^6.1.0",
     "@adonisjs/lucid": "^21.3.0",
+    "@adonisjs/mail": "^9.2.2",
     "@adonisjs/redis": "^9.1.0",
     "@adonisjs/session": "^7.5.0",
     "@adonisjs/shield": "^8.1.1",
@@ -65,12 +68,17 @@
     "@adonisjs/vite": "^3.0.0",
     "@dimerapp/markdown": "^8.0.1",
     "@iconify-json/ph": "^1.2.1",
+    "@types/mailgun-js": "^0.22.18",
+    "@types/uuid": "^10.0.0",
     "@vinejs/vine": "^2.1.0",
     "edge-iconify": "^2.0.1",
     "edge.js": "^6.2.0",
+    "form-data": "^4.0.1",
     "luxon": "^3.5.0",
+    "mailgun.js": "^10.2.3",
     "pg": "^8.13.0",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "uuid": "^10.0.0"
   },
   "hotHook": {
     "boundaries": [

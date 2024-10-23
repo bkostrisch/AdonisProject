@@ -5,6 +5,7 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const TokenLoginController = () => import('#controllers/auth/token_login_controller')
 const AdminMoviesController = () => import('#controllers/admin/movies_controller')
 const AdminDashboardController = () => import('#controllers/admin/dashboard_controller')
 const StorageController = () => import('#controllers/storage_controller')
@@ -12,15 +13,14 @@ const ProfilesController = () => import('#controllers/profiles_controller')
 const WatchlistsController = () => import('#controllers/watchlists_controller')
 const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
-const MoviesController = () => import('#controllers/movies_controller')
 
 router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 
 router.get('/storage/*', [StorageController, 'show']).as('storage.show').use(middleware.admin())
 
 router
-  .get('/movies/:slug', [MoviesController, 'show'])
-  .as('movies.show')
+  .get('/movies/:slug', [HomeController, 'show'])
+  .as('home.show')
   .where('slug', router.matchers.slug())
 
 router
@@ -33,8 +33,6 @@ router
   })
   .as('watchlists')
   .use(middleware.auth())
-
-router.get('/movies', [MoviesController, 'index']).as('movies.index').use(middleware.auth())
 
 router
   .get('/directors', [DirectorsController, 'index'])
@@ -62,6 +60,18 @@ router.put('/profiles', [ProfilesController, 'update']).as('profiles.update').us
 router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show').use(middleware.auth())
 
 router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
+
+router.get('auth/token', [TokenLoginController, 'show']).as('login.token').use(middleware.guest())
+
+router
+  .post('auth/token', [TokenLoginController, 'sendToken'])
+  .as('sent.token')
+  .use(middleware.guest())
+
+router
+  .get('auth/token/verify/:token', [TokenLoginController, 'validateToken'])
+  .as('verify.token')
+  .use(middleware.guest())
 
 router
   .group(() => {

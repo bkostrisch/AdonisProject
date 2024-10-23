@@ -1,0 +1,33 @@
+@layout()
+<div class="flex flex-col items-center">
+    <h1>TOKEN</h1>
+
+    @card({ class: 'max-w-md' })
+
+    <form method="POST" action="{{ route('sent.token') }}" class="flex flex-col gap-4 ">
+
+        {{ csrfField() }}
+
+        <!-- Exibir mensagem de erro, se houver -->
+        @if (flashMessages.values.error)
+        <p class="text-red-500 bg-red-50 p-3 rounded text-xs">
+            {{ flashMessages.values.error}}
+        </p>
+        @end
+
+        <!-- Campo de email -->
+        @!form.input({
+        label: 'Email',
+        name: 'email',
+        type: 'email'
+        })
+
+        <!-- Botão de envio -->
+        @button({type: 'submit'})
+        Enviar Token
+        @end
+    </form>
+
+    @end
+</div>
+@end

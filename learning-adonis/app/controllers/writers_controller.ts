@@ -11,10 +11,6 @@ export default class WritersController {
       .withCount('moviesWritten', (query) =>
         query.apply((scope) => scope.notReleased()).as('notReleasedCount')
       )
-      .orderBy([
-        { column: 'firstName', order: 'asc' },
-        { column: 'lastName', order: 'asc' },
-      ])
 
     return view.render('pages/writers/index', { writers })
   }
