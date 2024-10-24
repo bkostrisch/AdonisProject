@@ -31,6 +31,11 @@ router
   .where('slug', router.matchers.slug())
 
 router
+  .get('/courses/video_classes/:slug', [ModuleController, 'view'])
+  .as('module.classes')
+  .where('slug', router.matchers.slug())
+
+router
   .post('/courses/modules/:slug/:cursoId', [ModuleController, 'create'])
   .as('course.module.create')
   .where('slug', router.matchers.slug())

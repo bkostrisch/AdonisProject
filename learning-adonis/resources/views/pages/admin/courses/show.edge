@@ -1,4 +1,5 @@
 @layout({ title: course.title })
+
 @slot('meta')
 <meta name="description" content="{{ course.description }}" />
 @endslot
@@ -33,5 +34,64 @@ No Description
         @end
     </div>
 </div>
+<div class="flex flex-wrap -mx-6 gap-4">
+
+    @each (mod in modules)
+    <div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-64 ">
+        <div class="pb-4 text-center flex flex-col break-words	">
+        <a>
+            {{ mod.title }} 
+        </a> 
+        <a>
+            {{ mod.description }}
+        </a>
+        </div>
+    <div class="w-36 items-center m-auto">
+        @button({ href: route('module.classes', { slug: course.slug }) })
+        See Classes
+        @end
+    </div>
+    </div>
+    
+    @end
+</div>
+
+
+{{-- <div class="relative overflow-x-auto text-xs">
+    <table class="w-full text-sm text-left rtl:text-right text-slate-500">
+        <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+            <tr>
+                <th scope="col" class="px-2 py-1.5">Student</th>
+                <th scope="col" class="px-2 py-1.5">Class</th>
+                <th scope="col" class="px-2 py-1.5"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @each(movie in movies)
+            <tr class="bg-white border-b">
+                <td class="px-2 py-4">{{ movie.title }}</td>
+                <td class="px-2 py-4">{{ movie.status.name }}</td>
+                <td class="px-2 py-4">
+                    <div>Producer: {{ movie.writer.fullName }}</div>
+                </td>
+                <td class="px-2 py-4">
+                    <div>Cast Members: {{ movie.$extras.castMembers_count }}</div>
+                    <div>Crew Members: {{ movie.$extras.crewMembers_count }}</div>
+                </td>
+                <td class="px-2 py-4">
+                    <a href="{{ route('admin.movies.edit', { id: movie.id }) }}">Edit</a>
+                    <form method="POST"
+                        action="{{ route('admin.movies.destroy', { id: movie.id }, { qs: { _method: 'DELETE' }}) }}">
+                        {{ csrfField() }}
+                        <button type="submit" class="text-red-500">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            @endeach
+        </tbody>
+    </table>
+</div> --}}
 
 @end

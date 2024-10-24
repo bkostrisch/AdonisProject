@@ -23,7 +23,13 @@ export default class CoursesController {
       .firstOrFail()
       .then((courses) => courses.producer)
 
-    return view.render('pages/admin/courses/show', { course, producer })
+    if (!auth.user) {
+      return response.unauthorized('You must be logged in to create a course')
+    }
+    const moduleId = course.id
+    const modules = await this.courseService.listModuleByCourse(moduleId)
+
+    return view.render('pages/admin/courses/show', { course, producer, modules })
   }
 
   public async create({ request, response, auth }: HttpContext): Promise<Course | void> {
@@ -48,7 +54,6 @@ export default class CoursesController {
       return response.unauthorized('You must be logged in to create a course')
     }
     const producerId = auth.user.id
-
     const courses = await this.courseService.listCourseByUser(producerId)
 
     return view.render('pages/marge', { courses })

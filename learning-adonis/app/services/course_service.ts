@@ -43,6 +43,10 @@ export default class CourseService {
     return await Course.query().where('user_id', userId).preload('producer')
   }
 
+  public async listModuleByCourse(courseId: number) {
+    return await Module.query().where('course_id', courseId).preload('course')
+  }
+
   static async getFormData() {
     const modules = await Module.query().orderBy('name')
     const videoClass = await VideoClass.query()

@@ -11,12 +11,18 @@ export default class ModuleController {
     this.moduleService = new ModuleService()
   }
 
+  public async view({ view, params }: HttpContext) {
+    const course = await Course.findByOrFail('slug', params.slug)
+    const module = course.id
+
+    const modules = await this.moduleService.listModuleByCourse(module)
+
+    return view.render('pages/admin/courses/video_classes/classes', { course, modules })
+  }
+
   public async index({ view, params }: HttpContext) {
     const course = await Course.findByOrFail('slug', params.slug)
     const modules = await Module.firstOrFail()
-
-    console.log(modules)
-    console.log(modules.title)
 
     return view.render('pages/admin/courses/modules/createModule', { course, modules })
   }

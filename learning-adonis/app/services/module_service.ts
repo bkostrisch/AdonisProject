@@ -1,3 +1,4 @@
+import Course from '#models/course'
 import Module from '#models/module'
 import VideoClass from '#models/video_class'
 import { Exception } from '@adonisjs/core/exceptions'
@@ -24,5 +25,8 @@ export default class ModuleService {
       ytblink: data.ytblink,
       moduleId: moduleId,
     })
+  }
+  public async listModuleByCourse(courseId: number) {
+    return await Module.query().where('course_id', courseId).preload('course')
   }
 }
