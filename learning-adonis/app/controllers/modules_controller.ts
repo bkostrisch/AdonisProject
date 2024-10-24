@@ -14,7 +14,6 @@ export default class ModuleController {
   public async view({ view, params }: HttpContext) {
     const course = await Course.findByOrFail('slug', params.slug)
     const module = course.id
-
     const modules = await this.moduleService.listModuleByCourse(module)
 
     return view.render('pages/admin/courses/video_classes/classes', { course, modules })
@@ -27,20 +26,13 @@ export default class ModuleController {
     return view.render('pages/admin/courses/modules/createModule', { course, modules })
   }
 
-  public async create({ request, params, response, auth }: HttpContext) {
+  public async create({ view, request, params, response, auth }: HttpContext) {
     const data = await request.validateUsing(moduleValidator)
     const module = await this.moduleService.createModule(params.cursoId, data)
-
     if (!auth.user) {
       return response.unauthorized('You must be logged in to create a course')
     }
 
-    return response.created(module)
-  }
-
-  public async addVideoClass({ request, params, response }: HttpContext) {
-    const data = request.only(['title', 'description', 'ytblink'])
-    const module = await this.moduleService.addVideoClass(params.moduleId, data)
-    return response.created(module)
+    return view.render('pages/admin/courses', { module })
   }
 }

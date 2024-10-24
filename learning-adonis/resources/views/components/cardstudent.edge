@@ -1,0 +1,9 @@
+
+<div class="gap-4 mt-5" >
+    @if ($slots.picture)
+    {{{ await $slots.picture() }}}
+    @endif
+    <div class="flex  space-x-2  ">
+        {{{ await $slots.main() }}}
+    </div>
+</div>

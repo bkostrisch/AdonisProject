@@ -68,6 +68,7 @@
     "@adonisjs/vite": "^3.0.0",
     "@dimerapp/markdown": "^8.0.1",
     "@iconify-json/ph": "^1.2.1",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/mailgun-js": "^0.22.18",
     "@types/uuid": "^10.0.0",
     "@vinejs/vine": "^2.1.0",

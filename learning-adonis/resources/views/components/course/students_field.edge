@@ -1,0 +1,10 @@
+@cardstudent()   
+    @form.input({ type: 'select', label: '', name: '' })
+    @each(user in users)
+    <option value="{{ user.id }}" {{ html.attrs({ selected: member?.user_id===user.id }) }}>
+        {{ user.fullName }}
+    </option>
+    @endeach
+    @end  
+    <button type="button" onclick="this.parentElement.remove()">&times</button>    
+@end

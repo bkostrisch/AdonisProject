@@ -28,31 +28,46 @@ No Description
 <div class="flex justify-between items-center gap-4">
     <h1>Módulos</h1>
 
-    <div>
-        @button({ href: route('course.module', { slug: course.slug }) })
-        Create Module
-        @end
+    <div class="flex gap-4">
+        <div>
+            @button({ href: route('students.register', { slug: course.slug, courseId: course.id }) })
+            Add Students
+            @end
+        </div>
+        <div>
+            @button({ href: route('course.module', { slug: course.slug }) })
+            Create Module
+            @end
+        </div>
     </div>
 </div>
-<div class="flex flex-wrap -mx-6 gap-4">
+<div class="flex flex-wrap -mx-6 gap-4 ">
 
     @each (mod in modules)
-    <div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-64 ">
-        <div class="pb-4 text-center flex flex-col break-words	">
-        <a>
-            {{ mod.title }} 
-        </a> 
-        <a>
-            {{ mod.description }}
-        </a>
+    <div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-32 ">
+        <div class="pb-4 text-center flex flex-col break-words max-h-32 ">
+            <a>
+                {{ mod.title }}
+            </a>
+            <a class="text-slate-400 text-xs min-h-16 line-clamp-4 ">
+                {{ mod.description }}
+            </a>
         </div>
-    <div class="w-36 items-center m-auto">
-        @button({ href: route('module.classes', { slug: course.slug }) })
-        See Classes
-        @end
+        <div class="w-48 items-center m-auto">
+            @button({ href: route('module.classes', { slug: course.slug, moduleId: mod.id }) })
+            See Classes
+            @end
+        </div>
+        @if(auth.user.roleId === Roles.ADMIN)
+        <div class="w-48 items-center m-auto mt-2">
+            @button({ href: route('video.classes', { slug: course.slug, moduleId: mod.id}) })
+            Add Class
+            @end
+        </div>
+
+        @endif
     </div>
-    </div>
-    
+
     @end
 </div>
 

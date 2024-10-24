@@ -6,13 +6,12 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.integer('student_id').unsigned().references('users.id').onDelete('CASCADE')
+      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
       table
         .integer('student_class_id')
         .unsigned()
         .references('student_classes.id')
         .onDelete('CASCADE')
-      table.integer('course_id').unsigned().references('courses.id').onDelete('CASCADE')
       table.dateTime('expires_at').notNullable()
       table.timestamps(true)
     })

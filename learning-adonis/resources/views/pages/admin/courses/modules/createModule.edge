@@ -6,7 +6,6 @@
 <form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
     {{ csrfField() }}
 
-
     @!form.input({ label: 'Title', name: 'title' })
 
     @!form.input({ type: 'textarea', label: 'Description', name: 'description'})

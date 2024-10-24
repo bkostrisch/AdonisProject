@@ -1,0 +1,39 @@
+@let(action = route(('course.module.create'), {slug: course.slug, cursoId: course.id}))
+
+@layout.admin({title: course.title})
+<h1>Insert Student to {{ course.title }}</h1>
+<form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
+    {{ csrfField() }}
+    
+    <div id="userList">
+        @each(member in userList)
+           @!course.studentsField({ member, users })
+        @endeach
+    </div>
+
+    <button type="button" onclick="addStudent()">Add Student</button>
+    
+
+    @button({ type: 'submit' })
+    Insert Student
+    @end
+
+</form>
+
+<template id="usersTemplate">
+    @!course.studentsField({ member: null, users })
+</template>
+
+<script>
+
+    const userList = document.getElementById('userList')
+    const usersTemplate = document.getElementById('usersTemplate')
+
+    function addStudent() {
+
+        userList.appendChild(usersTemplate.content.cloneNode(true))
+
+    }
+
+</script>
+@end

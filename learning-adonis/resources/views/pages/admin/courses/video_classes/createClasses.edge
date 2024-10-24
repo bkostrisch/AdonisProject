@@ -1,0 +1,21 @@
+@let(action = route(('video.classes.create'), {slug: course.slug, moduleId: modules.id}))
+
+@layout.admin({title: course.title})
+<h1>New Class to: {{ modules.title }}</h1>
+
+<form id="videoForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4 w-1/2 m-auto">
+    {{ csrfField() }}
+
+    @!form.input({ label: 'Title', name: 'title' })
+
+    @!form.input({ type: 'textarea', label: 'Description', name: 'description'})
+
+    @!form.input({ label: 'Video Link', name: 'ytblink'})
+
+    @button({ type: 'submit' })
+    Create Class
+    @end
+
+</form>
+<script src="//unpkg.com/alpinejs" defer></script>
+@end

@@ -1,6 +1,5 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-const MoviesController = () => import('#controllers/admin/movies_controller')
 const RedisController = () => import('#controllers/redis_controller')
 const DirectorsController = () => import('#controllers/directors_controller')
 const WritersController = () => import('#controllers/writers_controller')
@@ -15,6 +14,8 @@ const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const CoursesController = () => import('#controllers/courses_controller')
 const ModuleController = () => import('#controllers/modules_controller')
+const VideoClassesController = () => import('#controllers/video_classes_controller')
+const StudentRegistersController = () => import('#controllers/student_registers_controller')
 
 router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 
@@ -31,13 +32,31 @@ router
   .where('slug', router.matchers.slug())
 
 router
-  .get('/courses/video_classes/:slug', [ModuleController, 'view'])
+  .post('/courses/modules/:slug/:cursoId', [ModuleController, 'create'])
+  .as('course.module.create')
+  .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/video_classes/:slug/:moduleId', [VideoClassesController, 'view'])
   .as('module.classes')
   .where('slug', router.matchers.slug())
 
 router
-  .post('/courses/modules/:slug/:cursoId', [ModuleController, 'create'])
-  .as('course.module.create')
+  .get('/courses/video_classes/createClasses/:slug/:moduleId', [VideoClassesController, 'index'])
+  .as('video.classes')
+  .where('slug', router.matchers.slug())
+
+router
+  .post('/courses/video_classes/createClasses/create/:slug/:moduleId', [
+    VideoClassesController,
+    'create',
+  ])
+  .as('video.classes.create')
+  .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/students/:slug/:courseId', [StudentRegistersController, 'view'])
+  .as('students.register')
   .where('slug', router.matchers.slug())
 
 router

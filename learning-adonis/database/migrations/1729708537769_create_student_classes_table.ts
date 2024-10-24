@@ -7,6 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.integer('course_id').unsigned().references('courses.id').onDelete('CASCADE')
+      table.integer('capacity')
       table.timestamps(true)
     })
   }

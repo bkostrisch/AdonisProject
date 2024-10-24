@@ -32,7 +32,7 @@ export default class CoursesController {
     return view.render('pages/admin/courses/show', { course, producer, modules })
   }
 
-  public async create({ request, response, auth }: HttpContext): Promise<Course | void> {
+  public async create({ request, response, auth }: HttpContext) {
     const { poster, ...data } = await request.validateUsing(courseValidator)
 
     if (!auth.user) {
@@ -46,7 +46,7 @@ export default class CoursesController {
     const producerId = auth.user.id
     const course = await this.courseService.createCourse(producerId, data)
 
-    return response.created(course)
+    return response.redirect().toRoute('home')
   }
 
   public async list({ response, auth, view }: HttpContext) {
