@@ -1,13 +1,16 @@
 import Module from '#models/module'
 import VideoClass from '#models/video_class'
 import { Exception } from '@adonisjs/core/exceptions'
+import { DateTime } from 'luxon'
 
 export default class ModuleService {
   public async createModule(courseId: number, data: any) {
+    console.log('aqui', courseId)
     return await Module.create({
       title: data.title,
       description: data.description,
-      courseId: courseId,
+      courseId,
+      createdAt: DateTime.now(),
     })
   }
 

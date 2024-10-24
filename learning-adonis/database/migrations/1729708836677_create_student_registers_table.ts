@@ -12,7 +12,7 @@ export default class extends BaseSchema {
         .unsigned()
         .references('student_classes.id')
         .onDelete('CASCADE')
-      table.integer('course_id').unsigned().references('course.id').onDelete('CASCADE')
+      table.integer('course_id').unsigned().references('courses.id').onDelete('CASCADE')
       table.dateTime('expires_at').notNullable()
       table.timestamps(true)
     })

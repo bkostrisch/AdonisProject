@@ -101,10 +101,6 @@ export default class Movie extends BaseModel {
     )
   })
 
-  // static classesList = scope((query) => {
-  //   query.where((group) => group.whereNotNull('id'))
-  // })
-
   @beforeCreate()
   static async slugify(movie: Movie) {
     if (movie.slug) return

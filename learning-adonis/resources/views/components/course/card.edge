@@ -1,0 +1,45 @@
+@card({ ...$props.except(['course']) })
+@slot('picture')
+<div class="relative">
+    <img src="{{ course.posterUrl }}" class="w-full h-40" />
+</div>
+@endslot
+
+
+<dl class="text-xs">
+    <div class="flex">
+        <dt class="w-16">Class:</dt>
+        <dd>
+            <a>
+                {{ course.title }}
+            </a>
+        </dd>
+    </div>
+    <div class="flex">
+        <dt class="w-16">Producer:</dt>
+        <dd>
+            <a>
+                {{ course.producer.fullName }}
+            </a>
+        </dd>
+    </div>
+</dl>
+
+<div class="mt-4 flex flex-col gap-2">
+    @if ($slots.action)
+    {{{ await $slots.action() }}}
+    @elseif (auth.user && course.watchlist)
+    <form method="POST" action="{{ route('watchlists.toggle', { courseId: course.id }) }}">
+        {{ csrfField() }}
+
+        @button({ type: 'submit' })
+        {{ course.watchlist.length ? 'In Your Watchlist' : 'Add To Watchlist' }}
+        @end
+    </form>
+    @endif
+
+    @button({ href: route('course.show', { slug: course.slug }) })
+    Enter Class
+    @end
+</div>
+@end

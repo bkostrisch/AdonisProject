@@ -2,7 +2,8 @@
     <div>
         <a href="{{ route('home') }}">Home</a>
         @if(auth.user.roleId === Roles.ADMIN)
-        <a href="{{ route('admin.movies.index') }}">Classes</a>
+        <a href="{{ route('admin.movies.index') }}">Courses</a>
+        <a href="{{ route('courses.index') }}">Courses Test</a>
         @endif
     </div>
     <div>

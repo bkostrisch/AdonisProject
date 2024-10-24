@@ -1,0 +1,20 @@
+@let(action = route(('course.module.create'), {slug: course.slug, cursoId: course.id}))
+
+@layout.admin({title: course.title})
+<h1>Novo Módulo para: {{ course.title }}</h1>
+
+<form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
+    {{ csrfField() }}
+
+
+    @!form.input({ label: 'Title', name: 'title' })
+
+    @!form.input({ type: 'textarea', label: 'escription', name: 'description'})
+
+    @button({ type: 'submit' })
+    Create Module
+    @end
+
+</form>
+<script src="//unpkg.com/alpinejs" defer></script>
+@end

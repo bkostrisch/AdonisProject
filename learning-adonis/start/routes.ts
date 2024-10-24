@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const MoviesController = () => import('#controllers/admin/movies_controller')
 const RedisController = () => import('#controllers/redis_controller')
 const DirectorsController = () => import('#controllers/directors_controller')
 const WritersController = () => import('#controllers/writers_controller')
@@ -13,14 +14,25 @@ const WatchlistsController = () => import('#controllers/watchlists_controller')
 const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const CoursesController = () => import('#controllers/courses_controller')
+const ModuleController = () => import('#controllers/modules_controller')
 
 router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 
 router.get('/storage/*', [StorageController, 'show']).as('storage.show').use(middleware.admin())
 
 router
-  .get('/movies/:slug', [HomeController, 'show'])
-  .as('home.show')
+  .get('/courses/:slug', [CoursesController, 'show'])
+  .as('course.show')
+  .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/modules/:slug', [ModuleController, 'index'])
+  .as('course.module')
+  .where('slug', router.matchers.slug())
+
+router
+  .post('/courses/modules/:slug/:cursoId', [ModuleController, 'create'])
+  .as('course.module.create')
   .where('slug', router.matchers.slug())
 
 router
@@ -61,9 +73,17 @@ router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show').us
 
 router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
 
-router.get('/testing', [CoursesController, 'create']).as('testing').use(middleware.auth())
-
 router.get('auth/token', [TokenLoginController, 'show']).as('login.token').use(middleware.guest())
+
+router
+  .get('/admin/courses', [CoursesController, 'index'])
+  .as('courses.index')
+  .use(middleware.auth())
+
+router
+  .post('/admin/courses/create', [CoursesController, 'create'])
+  .as('courses.create')
+  .use(middleware.auth())
 
 router
   .post('auth/token', [TokenLoginController, 'sendToken'])

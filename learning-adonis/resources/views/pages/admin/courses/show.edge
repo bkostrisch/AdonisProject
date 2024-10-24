@@ -1,0 +1,37 @@
+@layout({ title: course.title })
+@slot('meta')
+<meta name="description" content="{{ course.description }}" />
+@endslot
+
+<h1>{{ course.title }}</h1>
+
+<dl class="text-sm py-4">
+    <div class="flex">
+        <dt class="w-16 ">Producer:</dt>
+        <dd>
+            <a>
+                {{ producer.fullName }}
+            </a>
+        </dd>
+    </div>
+</dl>
+
+@if (course.description)
+<div class="my-8 bg-slate-100 rounded-xl p-8">
+    {{{ course.description }}}
+</div>
+@else
+No Description
+@endif
+
+<div class="flex justify-between items-center gap-4">
+    <h1>Módulos</h1>
+
+    <div>
+        @button({ href: route('course.module', { slug: course.slug }) })
+        Create Module
+        @end
+    </div>
+</div>
+
+@end

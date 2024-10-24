@@ -1,0 +1,42 @@
+@let(title = course ? `Update ${course.title}` : 'Create A New Course')
+@let(action = route('courses.create'))
+
+@if (course)
+@assign(action = route('admin.movies.update', { id: course.id }, { qs: { _method: 'PUT' } }))
+@endif
+
+@layout.admin()
+<h1>{{ title }}</h1>
+
+<form id="courseForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
+    {{ csrfField() }}
+
+    @if (course?.posterUrl)
+    <div class="relative w-1/3 mx-auto">
+        <img src="{{ course?.posterUrl }}" class="w-full" />
+        <button type="button" class="absolute top-0 right-0 p-3 rounded-full"
+            onclick="(document.forms.courseForm.posterUrl.value = '') || this.parentElement.remove()">
+            &times;
+        </button>
+    </div>
+    @endif
+
+    <input type="hidden" name="posterUrl" value="{{ course?.posterUrl || '' }}" />
+
+    @!form.input({
+    type: 'file',
+    label: 'Poster',
+    name: 'poster'
+    })
+
+
+    @!form.input({ label: 'Title', name: 'title', value: course?.title })
+
+    @!form.input({ type: 'textarea', label: 'Description', name: 'description', value: course?.description })
+
+    @button({ type: 'submit' })
+    {{ movie ? 'Update' : 'Create' }} Course
+    @end
+</form>
+<script src="//unpkg.com/alpinejs" defer></script>
+@end

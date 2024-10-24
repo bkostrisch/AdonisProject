@@ -56,7 +56,9 @@ export default class MoviesController {
   /**
    * Show individual record
    */
-  async show({ params }: HttpContext) {}
+  async show({ response }: HttpContext) {
+    return response.redirect().toRoute('home.show')
+  }
 
   /**
    * Edit individual record

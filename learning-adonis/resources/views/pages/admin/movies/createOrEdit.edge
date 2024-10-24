@@ -41,7 +41,7 @@
     value: movie?.releasedAt.toFormat('yyyy-MM-dd')
     })
 
-    @form.input({ type: 'select', label: 'Status', name: 'statusId' })
+    @form.input({ type: 'select', label: 'Modules', name: 'statusId' })
     @each(status in statuses)
     <option value="{{ status.id }}" {{ html.attrs({ selected: movie?.statusId===status.id }) }}>
         {{ status.name }}
@@ -49,15 +49,7 @@
     @endeach
     @end
 
-    @form.input({ type: 'select', label: 'Writer', name: 'writerId' })
-    @each(cineast in cineasts)
-    <option value="{{ cineast.id }}" {{ html.attrs({ selected: movie?.writerId===cineast.id }) }}>
-        {{ cineast.fullName }}
-    </option>
-    @endeach
-    @end
-
-    @form.input({ type: 'select', label: 'Director', name: 'directorId' })
+    @form.input({ type: 'select', label: 'Producer', name: 'directorId' })
     @each(cineast in cineasts)
     <option value="{{ cineast.id }}" {{ html.attrs({ selected: movie?.directorId===cineast.id }) }}>
         {{ cineast.fullName }}
@@ -65,18 +57,16 @@
     @endeach
     @end
 
-    @!form.input({ type: 'textarea', label: 'Summary', name: 'summary', value: movie?.summary })
+    @!form.input({ type: 'textarea', label: 'Descrição', name: 'summary', value: movie?.summary })
 
-    @!form.input({ type: 'textarea', label: 'Abstract', name: 'abstract', value: movie?.abstract })
-
-    <h4 class="font-bold">Crew Members</h4>
+    <h4 class="font-bold">Students</h4>
 
     <div x-data="{ members: {{ js.stringify(crewMembers || []) }} }">
         <div class="flex flex-col gap-3">
             <template x-for="(member, index) in members" :key="member.cineast_id">
                 <div class="flex gap-3">
                     <label class="flex flex-col">
-                        <span class="text-xs font-bold">Crew Member</span>
+                        <span class="text-xs font-bold">Students</span>
 
                         <select :name="`crew[${index}][id]`" x-model="members[index].cineast_id">
                             @each(cineast in cineasts)
