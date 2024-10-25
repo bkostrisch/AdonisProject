@@ -13,7 +13,7 @@
             <tr class="bg-white border-b">
                 <td class="px-2 py-4">{{ clas.title }}</td>
                 <td class="px-2 py-4">
-                    <a href="{{ route('admin.movies.edit', { id: clas.id }) }}">Edit</a>
+                    <a>Edit</a>
                     <form method="POST"
                         action="{{ route('video.classes.softdelete', { id: clas.id }, { qs: { _method: 'DELETE' }}) }}">
                         {{ csrfField() }}

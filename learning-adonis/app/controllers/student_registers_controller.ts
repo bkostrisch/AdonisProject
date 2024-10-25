@@ -22,7 +22,9 @@ export default class StudentRegistersController {
     const course = await Course.query()
       .where('slug', params.slug)
       .preload('studentClass', (studentClassQuery) => {
-        studentClassQuery.preload('studentRegister')
+        studentClassQuery.preload('studentRegister', (studentRegisterQuery) => {
+          studentRegisterQuery.preload('user')
+        })
       })
       .firstOrFail()
     const users = await User.query().where('role_id', 1)
@@ -47,5 +49,12 @@ export default class StudentRegistersController {
     const studentId = params.studentId
     await this.studentRegisterService.removeStudent(params.courseId, studentId)
     return response.noContent()
+  }
+
+  public async softDelRegister({ response, params }: HttpContext) {
+    console.log(params.id)
+    const register = await StudentRegister.findOrFail(params.id)
+    await register.softDelete()
+    return response.redirect().back()
   }
 }

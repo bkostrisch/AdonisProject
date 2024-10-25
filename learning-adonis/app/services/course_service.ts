@@ -27,14 +27,6 @@ export default class CourseService {
     return course
   }
 
-  public async deleteCourse(courseId: number, userId: number) {
-    const course = await Course.query()
-      .where('id', courseId)
-      .andWhere('user_id', userId)
-      .firstOrFail()
-    await course.delete()
-  }
-
   public async listCourses() {
     return await Course.query()
   }

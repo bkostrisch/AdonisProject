@@ -11,9 +11,10 @@ export default class CoursesController {
     this.courseService = new CourseService()
   }
 
-  public async index({ view }: HttpContext) {
+  public async index({ view, params }: HttpContext) {
     const modules = await Module.query()
-    return view.render('pages/admin/courses/createOrEdit', { modules })
+    const courses = await Course.findOrFail(params.id)
+    return view.render('pages/admin/courses/createOrEdit', { modules, courses })
   }
 
   public async show({ view, params, auth, response }: HttpContext) {
@@ -35,17 +36,14 @@ export default class CoursesController {
 
   public async create({ request, response, auth }: HttpContext) {
     const { poster, ...data } = await request.validateUsing(courseValidator)
-
     if (!auth.user) {
       return response.unauthorized('You must be logged in to create a course')
     }
-
     if (poster) {
       data.posterUrl = await CourseService.storePoster(poster)
     }
-
     const producerId = auth.user.id
-    const course = await this.courseService.createCourse(producerId, data)
+    await this.courseService.createCourse(producerId, data)
 
     return response.redirect().toRoute('home')
   }
@@ -61,17 +59,22 @@ export default class CoursesController {
   }
 
   public async edit({ request, params, response, auth }: HttpContext) {
-    const data = request.only(['title', 'description'])
+    const { poster, ...data } = await request.validateUsing(courseValidator)
+    const course = await Course.findOrFail(params.id)
     if (!auth.user) {
-      return response.unauthorized('You must be logged in to create a course')
+      return response.unauthorized('You must be logged in to edit a course')
     }
-
+    if (poster) {
+      data.posterUrl = await CourseService.storePoster(poster)
+    }
     const producerId = auth.user.id
-    const course = await this.courseService.editCourse(params.id, producerId, data)
-    return response.ok(course)
+    const courseId = course.id
+    await this.courseService.editCourse(courseId, producerId, data)
+
+    return response.redirect().toRoute('home')
   }
 
-  public async softDelClass({ response, params }: HttpContext) {
+  public async softDelCourse({ response, params }: HttpContext) {
     const course = await Course.findOrFail(params.id)
     await course.softDelete()
     return response.redirect().back()

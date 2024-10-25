@@ -12,8 +12,6 @@ export default class RegisterController {
 
     const user = await User.create(data)
 
-    await user.related('profile').create({})
-
     await auth.use('web').login(user)
 
     return response.redirect().toRoute('home')

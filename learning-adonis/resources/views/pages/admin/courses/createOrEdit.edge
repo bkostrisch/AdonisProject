@@ -2,7 +2,7 @@
 @let(action = route('courses.create'))
 
 @if (course)
-@assign(action = route('admin.movies.update', { id: course.id }, { qs: { _method: 'PUT' } }))
+@assign(action = route('courses.edit', { id: course.id }, { qs: { _method: 'PUT' } }))
 @endif
 
 @layout.admin()
@@ -35,7 +35,7 @@
     @!form.input({ type: 'textarea', label: 'Description', name: 'description', value: course?.description })
 
     @button({ type: 'submit' })
-    {{ movie ? 'Update' : 'Create' }} Course
+    {{ course ? 'Update' : 'Create' }} Course
     @end
 </form>
 <script src="//unpkg.com/alpinejs" defer></script>

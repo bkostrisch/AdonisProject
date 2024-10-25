@@ -21,17 +21,6 @@
 </dl>
 
 <div class="mt-4 flex flex-col gap-2">
-    @if ($slots.action)
-    {{{ await $slots.action() }}}
-    @elseif (auth.user && course.watchlist)
-    <form method="POST" action="{{ route('watchlists.toggle', { courseId: course.id }) }}">
-        {{ csrfField() }}
-
-        @button({ type: 'submit' })
-        {{ course.watchlist.length ? 'In Your Watchlist' : 'Add To Watchlist' }}
-        @end
-    </form>
-    @endif
 
     @button({ href: route('course.show', { slug: course.slug }) })
     Enter Class

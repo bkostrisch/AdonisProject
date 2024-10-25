@@ -13,22 +13,21 @@
     <table class="w-full text-sm text-left rtl:text-right text-slate-500">
         <thead class="text-xs text-slate-700 uppercase bg-slate-50">
             <tr>
+                <th scope="col" class="px-2 py-1.5">Student</th>
                 <th scope="col" class="px-2 py-1.5">Class</th>
                 <th scope="col" class="px-2 py-1.5">Options</th>
             </tr>
         </thead>
         <tbody>
-            @each (sdClass in course.studentClass)
-            <h2>Turma: {{sdClass.id}}</h2>
-            @end
-            @each(classes in course.studentRegister)
-                @each(student in classes)  
+            @each(classes in course.studentClass)
+                @each(register in classes.studentRegister)
             <tr class="bg-white border-b">
-                <td class="px-2 py-4">{{ student.id }}</td>
+                <td class="px-2 py-4">{{ register.user.fullName }}</td>
+                <td class="px-2 py-4">{{ register.studentClassId }}</td>
                 <td class="px-2 py-4">
-                    <a href="{{ route('admin.movies.edit', { id: course.id }) }}">Edit</a>
+                    <a>Edit</a>
                     <form method="POST"
-                        action="{{ route('course.softdelete', { id: course.id }, { qs: { _method: 'DELETE' }}) }}">
+                        action="{{ route('students.softdelete', { id: register.id }, { qs: { _method: 'DELETE' }}) }}">
                         {{ csrfField() }}
                         <button type="submit" class="text-red-500">
                             Delete

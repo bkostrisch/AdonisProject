@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
 import StudentClass from './student_class.js'
+import Base from './softdelete.js'
 
-export default class StudentRegister extends BaseModel {
+export default class StudentRegister extends Base {
   @column({ isPrimary: true })
   declare id: number
 
@@ -20,11 +21,8 @@ export default class StudentRegister extends BaseModel {
   @column.dateTime()
   declare expiresAt: DateTime
 
-  @column.dateTime({ serializeAs: null })
-  public deletedAt?: DateTime
-
-  @belongsTo(() => User)
-  declare student: BelongsTo<typeof User>
+  @belongsTo(() => User, { foreignKey: 'studentId' })
+  declare user: BelongsTo<typeof User>
 
   @belongsTo(() => StudentClass)
   declare studentClass: BelongsTo<typeof StudentClass>

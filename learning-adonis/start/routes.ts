@@ -1,15 +1,10 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 const RedisController = () => import('#controllers/redis_controller')
-const DirectorsController = () => import('#controllers/directors_controller')
-const WritersController = () => import('#controllers/writers_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const TokenLoginController = () => import('#controllers/auth/token_login_controller')
-const AdminClassesControler = () => import('#controllers/admin/movies_controller')
 const StorageController = () => import('#controllers/storage_controller')
-const ProfilesController = () => import('#controllers/profiles_controller')
-const WatchlistsController = () => import('#controllers/watchlists_controller')
 const HomeController = () => import('#controllers/home_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const CoursesController = () => import('#controllers/courses_controller')
@@ -27,7 +22,7 @@ router
   .use(middleware.admin())
 
 router
-  .delete('/courses/courses_list/:id', [CoursesController, 'softDelClass'])
+  .delete('/courses/courses_list/:id', [CoursesController, 'softDelCourse'])
   .as('course.softdelete')
   .use(middleware.admin())
 
@@ -54,6 +49,7 @@ router
 router
   .delete('/courses/modules/modules_list/:id', [ModuleController, 'softDelClass'])
   .as('modules.softdelete')
+  .use(middleware.admin())
 
 router
   .get('/courses/video_classes/:slug/:moduleId', [VideoClassesController, 'view'])
@@ -91,31 +87,12 @@ router
   .get('/courses/students/students_list/:slug/:courseId', [StudentRegistersController, 'list'])
   .as('students.list')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 
 router
-  .group(() => {
-    router.get('/watchlist', [WatchlistsController, 'index']).as('index')
-    router.post('/watchlists/:movieId/toggle', [WatchlistsController, 'toggle']).as('toggle')
-    router
-      .post('/watchlists/:movieId/toggle-watched', [WatchlistsController, 'toggleWatched'])
-      .as('toggle.watched')
-  })
-  .as('watchlists')
-  .use(middleware.auth())
-
-router
-  .get('/directors', [DirectorsController, 'index'])
-  .as('directors.index')
-  .use(middleware.auth())
-
-router
-  .get('/directors/:id', [DirectorsController, 'show'])
-  .as('directors.show')
-  .use(middleware.auth())
-
-router.get('/writers', [WritersController, 'index']).as('writers.index').use(middleware.auth())
-
-router.get('/writers/:id', [WritersController, 'show']).as('writers.show').use(middleware.auth())
+  .delete('/courses/students/students_list/:id', [StudentRegistersController, 'softDelRegister'])
+  .as('students.softdelete')
+  .use(middleware.admin())
 
 router.delete('/redis/flush', [RedisController, 'flush']).as('redis.flush').use(middleware.auth())
 
@@ -124,23 +101,28 @@ router
   .as('redis.destroy')
   .use(middleware.auth())
 
-router.get('/profile/edit', [ProfilesController, 'edit']).as('profiles.edit').use(middleware.auth())
-router.put('/profiles', [ProfilesController, 'update']).as('profiles.update').use(middleware.auth())
-router.get('/profiles/:id', [ProfilesController, 'show']).as('profiles.show').use(middleware.auth())
-
 router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
 
 router.get('auth/token', [TokenLoginController, 'show']).as('login.token').use(middleware.guest())
 
+// ROTAS PARA CURSOS
+
 router
-  .get('/admin/courses', [CoursesController, 'index'])
+  .get('/admin/courses/:id', [CoursesController, 'index'])
   .as('courses.index')
   .use(middleware.auth())
 
 router
   .post('/admin/courses/create', [CoursesController, 'create'])
   .as('courses.create')
-  .use(middleware.auth())
+  .use(middleware.admin())
+
+router
+  .put('/admin/courses/create', [CoursesController, 'edit'])
+  .as('courses.edit')
+  .use(middleware.admin())
+
+// ROTAS PARA MODULOS
 
 router
   .post('/admin/courses/insert_student', [StudentRegistersController, 'addStudent'])
@@ -174,11 +156,3 @@ router
   })
   .prefix('/auth')
   .as('auth')
-
-router
-  .group(() => {
-    router.resource('movies', AdminClassesControler)
-  })
-  .prefix('/admin')
-  .as('admin')
-  .use(middleware.admin())
