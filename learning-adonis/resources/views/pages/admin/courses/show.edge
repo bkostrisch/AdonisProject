@@ -6,12 +6,23 @@
 
 <h1>{{ course.title }}</h1>
 
+@each (sdClass in course.studentClass)
+
+<div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-32 ">
+    <div class="pb-4 text-center flex flex-col break-words max-h-32 ">
+       {{sdClass.id}}
+    </div>
+ 
+</div>
+
+@end
+
 <dl class="text-sm py-4">
     <div class="flex">
         <dt class="w-16 ">Producer:</dt>
         <dd>
             <a>
-                {{ producer.fullName }}
+                {{ course.producer?.fullName }}
             </a>
         </dd>
     </div>
@@ -43,7 +54,7 @@ No Description
 </div>
 <div class="flex flex-wrap -mx-6 gap-4 ">
 
-    @each (mod in modules)
+    @each (mod in course.module)
     <div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-32 ">
         <div class="pb-4 text-center flex flex-col break-words max-h-32 ">
             <a>

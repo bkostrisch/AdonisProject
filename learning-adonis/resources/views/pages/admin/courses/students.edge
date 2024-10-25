@@ -1,10 +1,10 @@
-@let(action = route(('course.module.create'), {slug: course.slug, cursoId: course.id}))
+@let(action = route(('insert.student'), {slug: course.slug, cursoId: course.id}))
 
 @layout.admin({title: course.title})
 <h1>Insert Student to {{ course.title }}</h1>
 <form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
     {{ csrfField() }}
-    
+    <input type="hidden" value="{{course.id}}" name="courseId" />
     <div id="userList">
         @each(member in userList)
            @!course.studentsField({ member, users })

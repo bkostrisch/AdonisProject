@@ -28,4 +28,7 @@ export default class Module extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @column.dateTime({ serializeAs: null })
+  public deletedAt?: DateTime
 }

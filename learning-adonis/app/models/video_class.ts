@@ -2,8 +2,9 @@ import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Module from './module.js'
+import Base from './softdelete.js'
 
-export default class VideoClass extends BaseModel {
+export default class VideoClass extends Base {
   @column({ isPrimary: true })
   declare id: number
 

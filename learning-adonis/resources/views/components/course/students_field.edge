@@ -1,5 +1,5 @@
 @cardstudent()   
-    @form.input({ type: 'select', label: '', name: '' })
+    @form.input({ type: 'select', label: '', name: 'students_id[]' })
     @each(user in users)
     <option value="{{ user.id }}" {{ html.attrs({ selected: member?.user_id===user.id }) }}>
         {{ user.fullName }}

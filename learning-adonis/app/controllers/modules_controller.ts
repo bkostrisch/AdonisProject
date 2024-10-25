@@ -26,13 +26,13 @@ export default class ModuleController {
     return view.render('pages/admin/courses/modules/createModule', { course, modules })
   }
 
-  public async create({ view, request, params, response, auth }: HttpContext) {
+  public async create({ request, params, response, auth, session }: HttpContext) {
     const data = await request.validateUsing(moduleValidator)
-    const module = await this.moduleService.createModule(params.cursoId, data)
+    await this.moduleService.createModule(params.cursoId, data)
     if (!auth.user) {
       return response.unauthorized('You must be logged in to create a course')
     }
-
-    return view.render('pages/admin/courses', { module })
+    session.flash({ success: 'Module created!' })
+    return response.redirect().back()
   }
 }

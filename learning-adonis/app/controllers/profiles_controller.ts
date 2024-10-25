@@ -11,19 +11,13 @@ import { unlink } from 'node:fs/promises'
 @inject()
 export default class ProfilesController {
   constructor(protected profileService: ProfileService) {}
+
   async show({ view, params }: HttpContext) {
     const user = await User.findOrFail(params.id)
-    const movies = await Movie.query()
-      .whereHas('watchlist', (query) => query.where('userId', user.id).whereNotNull('watched_at'))
-      .preload('watchlist', (query) => query.where('userId', user.id))
-      .join('watchlists', 'watchlists.movie_id', 'movies.id')
-      .where('watchlists.user_id', user.id)
-      .orderBy('watchlists.watched_at', 'desc')
-      .select('movies.*')
 
     await user.load('profile')
 
-    return view.render('pages/profiles/show', { user, movies })
+    return view.render('pages/profiles/show', { user })
   }
 
   async edit({ view }: HttpContext) {
@@ -43,7 +37,6 @@ export default class ProfilesController {
 
       if (avatar) {
         await avatar.move(app.makePath('storage/avatars'))
-
         auth.user!.avatarUrl = `/storage/avatars/${avatar.fileName}`
       } else if (!avatarUrl && auth.user?.avatarUrl) {
         await unlink(app.makePath('storage', auth.user.avatarUrl))

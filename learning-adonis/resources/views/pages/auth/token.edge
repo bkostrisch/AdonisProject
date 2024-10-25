@@ -8,21 +8,18 @@
 
         {{ csrfField() }}
 
-        <!-- Exibir mensagem de erro, se houver -->
         @if (flashMessages.values.error)
         <p class="text-red-500 bg-red-50 p-3 rounded text-xs">
             {{ flashMessages.values.error}}
         </p>
         @end
 
-        <!-- Campo de email -->
         @!form.input({
         label: 'Email',
         name: 'email',
         type: 'email'
         })
 
-        <!-- Botão de envio -->
         @button({type: 'submit'})
         Enviar Token
         @end

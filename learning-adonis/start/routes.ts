@@ -22,6 +22,11 @@ router.get('/home', [HomeController, 'index']).as('home').use(middleware.auth())
 router.get('/storage/*', [StorageController, 'show']).as('storage.show').use(middleware.admin())
 
 router
+  .get('/courses/courses_list', [CoursesController, 'list'])
+  .as('courses.list')
+  .use(middleware.admin())
+
+router
   .get('/courses/:slug', [CoursesController, 'show'])
   .as('course.show')
   .where('slug', router.matchers.slug())
@@ -53,6 +58,15 @@ router
   ])
   .as('video.classes.create')
   .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/video_classes/classes_list/:slug/:moduleId', [VideoClassesController, 'list'])
+  .as('video.classes.list')
+  .where('slug', router.matchers.slug())
+
+router
+  .delete('/courses/video_classes/classes_list/:id', [VideoClassesController, 'softDelClass'])
+  .as('video.classes.softdelete')
 
 router
   .get('/courses/students/:slug/:courseId', [StudentRegistersController, 'view'])
@@ -107,6 +121,11 @@ router
 router
   .post('/admin/courses/create', [CoursesController, 'create'])
   .as('courses.create')
+  .use(middleware.auth())
+
+router
+  .post('/admin/courses/insert_student', [StudentRegistersController, 'addStudent'])
+  .as('insert.student')
   .use(middleware.auth())
 
 router

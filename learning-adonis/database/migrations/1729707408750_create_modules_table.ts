@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.string('title').notNullable()
       table.text('description').notNullable()
       table.integer('course_id').unsigned().references('courses.id').onDelete('CASCADE')
+      table.timestamp('deleted_at').nullable()
       table.timestamps(true)
     })
   }

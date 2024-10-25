@@ -6,6 +6,12 @@
 <form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
     {{ csrfField() }}
 
+    @if (flashMessages.values.success)
+    <p class="text-green-500 bg-green-50 p-3 rounded text-xs">
+        {{ flashMessages.values.success}}
+    </p>
+    @end
+
     @!form.input({ label: 'Title', name: 'title' })
 
     @!form.input({ type: 'textarea', label: 'Description', name: 'description'})

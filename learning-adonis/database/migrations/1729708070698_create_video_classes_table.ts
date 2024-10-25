@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.text('description').notNullable()
       table.string('ytblink').notNullable()
       table.integer('module_id').unsigned().references('modules.id').onDelete('CASCADE')
+      table.timestamp('deleted_at').nullable()
       table.timestamps(true)
     })
   }

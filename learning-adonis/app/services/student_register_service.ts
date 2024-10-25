@@ -11,36 +11,32 @@ export default class StudentRegisterService {
       throw new Error('Student does not exist')
     }
 
+    console.log('curso id', courseId)
     let studentClass = await StudentClass.query()
       .where('course_id', courseId)
-      .andWhereHas(
-        'studentRegister',
-        (query) => {
-          query.where('status', 'active')
-        },
-        '<',
-        10
+      .whereRaw(
+        '(SELECT COUNT(*) FROM student_registers WHERE student_class_id = student_classes.id AND deleted_at IS NULL) < student_classes.capacity'
       )
       .first()
 
     if (!studentClass) {
-      studentClass = await StudentClass.create({ courseId })
+      studentClass = await StudentClass.createStudentClass(courseId)
     }
 
     const studentRegister = await StudentRegister.create({
       studentId,
       studentClassId: studentClass.id,
-      courseId: courseId,
       expiresAt: DateTime.now().plus({ days: 30 }),
     })
 
-    await mail.send((message) => {
+    /*await mail.send((message) => {
       message
         .to(student.email)
         .from('no-reply@curso.com')
         .subject(`Welcome to the Course`)
         .htmlView('emails.bemvindo', { curso: courseId })
     })
+        */
 
     return studentRegister
   }

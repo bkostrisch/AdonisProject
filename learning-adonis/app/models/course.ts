@@ -25,6 +25,12 @@ export default class Course extends BaseModel {
   @column()
   declare slug: string
 
+  @column.dateTime({ serializeAs: null })
+  public deletedAt?: DateTime
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
   @belongsTo(() => User)
   declare producer: BelongsTo<typeof User>
 
@@ -33,9 +39,6 @@ export default class Course extends BaseModel {
 
   @hasMany(() => StudentClass)
   declare studentClass: HasMany<typeof StudentClass>
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
 
   @beforeCreate()
   static async slugify(course: Course) {

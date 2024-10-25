@@ -1,14 +1,23 @@
 @layout({ title: modules.title })
+<div class="flex justify-between items-center gap-4">
+    <h1>Video Classes for {{ modules.title }} </h1>
 
-<h1>Video Classes for {{ modules.title }} </h1>
+    <div class="flex gap-4">
+        <div>
+            @button({ href: route('video.classes.list', { slug: course.slug, moduleId: modules.id }) })
+            Classes Manager
+            @end
+        </div>
+    </div>
+</div>
 <h3 class="text-slate-500 bg-slate-100 p-6 rounded-lg">{{ modules.description }}</h3>
 
 
-    @each (aula in modules.videoClass)
+    @each (clas in modules.videoClass)
         <div class="border border-slate-100 rounded shadow min-w-64 max-w-64 mt-10  ">
             <div class=" text-center flex flex-col break-words ">
-                <a target="_blank" href="{{aula.ytblink}}" class="hover:bg-slate-100 p-3">
-                    {{aula.title}}       
+                <a target="_blank" href="{{clas.ytblink}}" class="hover:bg-slate-100 p-3">
+                    {{clas.title}}       
                 </a>
             </div>
         </div>

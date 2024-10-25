@@ -17,19 +17,21 @@ export default class CoursesController {
   }
 
   public async show({ view, params, auth, response }: HttpContext) {
-    const course = await Course.findByOrFail('slug', params.slug)
-    const producer = await Course.query()
+    const course = await Course.query()
+      .where('slug', params.slug)
       .preload('producer')
+      .preload('module')
+      .preload('studentClass', (studentClassQuery) => {
+        studentClassQuery.preload('studentRegister')
+      })
       .firstOrFail()
-      .then((courses) => courses.producer)
+    course
 
     if (!auth.user) {
       return response.unauthorized('You must be logged in to create a course')
     }
-    const moduleId = course.id
-    const modules = await this.courseService.listModuleByCourse(moduleId)
 
-    return view.render('pages/admin/courses/show', { course, producer, modules })
+    return view.render('pages/admin/courses/show', { course })
   }
 
   public async create({ request, response, auth }: HttpContext) {
@@ -56,7 +58,7 @@ export default class CoursesController {
     const producerId = auth.user.id
     const courses = await this.courseService.listCourseByUser(producerId)
 
-    return view.render('pages/marge', { courses })
+    return view.render('pages/admin/courses/courses_list', { courses })
   }
 
   public async edit({ request, params, response, auth }: HttpContext) {

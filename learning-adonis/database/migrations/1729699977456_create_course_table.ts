@@ -12,6 +12,7 @@ export default class extends BaseSchema {
       table.text('description').notNullable().defaultTo('')
       table.string('poster_url', 255).notNullable().defaultTo('')
       table.timestamp('created_at')
+      table.timestamp('deleted_at').nullable()
     })
   }
 

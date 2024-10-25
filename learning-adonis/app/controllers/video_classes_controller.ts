@@ -25,11 +25,12 @@ export default class VideoClassesController {
     })
   }
 
-  public async create({ view, request, response, params }: HttpContext) {
+  public async create({ session, request, response, params }: HttpContext) {
     const data = await request.validateUsing(videoClassValidator)
     const videoclass = await this.videoClass.addVideoClass(params.moduleId, data)
 
-    return response.created(videoclass)
+    session.flash({ success: 'Class created!' })
+    return response.redirect().back()
   }
 
   public async index({ view, params }: HttpContext) {
@@ -43,5 +44,24 @@ export default class VideoClassesController {
       course,
       modules,
     })
+  }
+
+  public async list({ view, params }: HttpContext) {
+    const course = await Course.findByOrFail('slug', params.slug)
+    const modules = await Module.query()
+      .where('id', params.moduleId)
+      .preload('videoClass')
+      .firstOrFail()
+
+    return view.render('pages/admin/courses/video_classes/classes_list', {
+      course,
+      modules,
+    })
+  }
+
+  public async softDelClass({ response, params }: HttpContext) {
+    const videoClass = await VideoClass.findOrFail(params.id)
+    await videoClass.softDelete()
+    return response.redirect().back()
   }
 }

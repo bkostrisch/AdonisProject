@@ -9,7 +9,7 @@ export default class StudentRegister extends BaseModel {
   declare id: number
 
   @column()
-  declare userId: number
+  declare studentId: number
 
   @column()
   declare studentClassId: number
@@ -20,15 +20,18 @@ export default class StudentRegister extends BaseModel {
   @column.dateTime()
   declare expiresAt: DateTime
 
+  @column.dateTime({ serializeAs: null })
+  public deletedAt?: DateTime
+
   @belongsTo(() => User)
   declare student: BelongsTo<typeof User>
 
   @belongsTo(() => StudentClass)
   declare studentClass: BelongsTo<typeof StudentClass>
 
-  static async createEnrollment(userId: number, studentClassId: number) {
+  static async createEnrollment(studentId: number, studentClassId: number) {
     const enrollment = new StudentRegister()
-    enrollment.userId = userId
+    enrollment.studentId = studentId
     enrollment.studentClassId = studentClassId
     enrollment.expiresAt = DateTime.now().plus({ days: 30 })
     await enrollment.save()

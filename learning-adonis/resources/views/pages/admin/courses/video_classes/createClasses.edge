@@ -5,6 +5,11 @@
 
 <form id="videoForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4 w-1/2 m-auto">
     {{ csrfField() }}
+    @if (flashMessages.values.success)
+    <p class="text-green-500 bg-green-50 p-3 rounded text-xs">
+        {{ flashMessages.values.success}}
+    </p>
+    @end
 
     @!form.input({ label: 'Title', name: 'title' })
 
