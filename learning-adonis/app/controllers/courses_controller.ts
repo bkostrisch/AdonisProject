@@ -12,9 +12,9 @@ export default class CoursesController {
   }
 
   public async index({ view, params }: HttpContext) {
+    const course = params.slug ? await Course.findBy('slug', params.slug) : null
     const modules = await Module.query()
-    const courses = await Course.findOrFail(params.id)
-    return view.render('pages/admin/courses/createOrEdit', { modules, courses })
+    return view.render('pages/admin/courses/createOrEdit', { modules, course })
   }
 
   public async show({ view, params, auth, response }: HttpContext) {
@@ -53,14 +53,14 @@ export default class CoursesController {
       return response.unauthorized('You must be logged in to create a course')
     }
     const producerId = auth.user.id
-    const courses = await this.courseService.listCourseByUser(producerId)
+    const courses = await this.courseService.listCourseByProducer(producerId)
 
     return view.render('pages/admin/courses/courses_list', { courses })
   }
 
   public async edit({ request, params, response, auth }: HttpContext) {
     const { poster, ...data } = await request.validateUsing(courseValidator)
-    const course = await Course.findOrFail(params.id)
+    const course = await Course.query().where('id', params.id).firstOrFail()
     if (!auth.user) {
       return response.unauthorized('You must be logged in to edit a course')
     }

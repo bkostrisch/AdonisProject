@@ -3,7 +3,7 @@
     <h1>Courses</h1>
     <div class="flex gap-4">
         <div>
-            @button({ href: route('courses.index', { id: courses.id }) })
+            @button({ href: route('courses.index') })
             Create Course
             @end
         </div>
@@ -19,10 +19,11 @@
         </thead>
         <tbody>
             @each(course in courses)
+          
             <tr class="bg-white border-b">
                 <td class="px-2 py-4">{{ course.title }}</td>
                 <td class="px-2 py-4">
-                    <a href="{{ route('courses.index', { id: course.id }) }}">Edit</a>
+                    <a href="{{ route('courses.index', { slug: course.slug }) }}">Edit</a>
                     <form method="POST"
                         action="{{ route('course.softdelete', { id: course.id }, { qs: { _method: 'DELETE' }}) }}">
                         {{ csrfField() }}

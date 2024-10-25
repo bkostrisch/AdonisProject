@@ -3,8 +3,6 @@
 <meta name="description" content="Browse and Search our awesome course list" />
 @endslot
 
-
-@if(auth.user.roleId === Roles.ADMIN)
 <div class="flex justify-between gap-4">
   <div class="flex gap-4"> 
       <h1>{{auth.user.fullName}}'s Classes </h1>
@@ -27,23 +25,5 @@
   
   @end
 </div>
-
-
-@elseif (auth.user.roleId === Roles.USER) 
-
-<h1> Your Classes </h1>
-
-<div class="flex flex-wrap -mx-6">
-
-@each (course in courses)
-
-<div class="w-full lg:w-1/3 px-3">
-  @!course.card({ course, class: 'w-full'})
-</div>
-
 @end
-</div>
 
-@endif
-
-@end

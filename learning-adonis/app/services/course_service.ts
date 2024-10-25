@@ -31,7 +31,17 @@ export default class CourseService {
     return await Course.query()
   }
 
-  public async listCourseByUser(userId: number) {
+  public async listCourseByStudent(studentId: number) {
+    return await Course.query()
+      .whereHas('studentClass', (studentClassQuery) => {
+        studentClassQuery.whereHas('studentRegister', (studentRegisterQuery) => {
+          studentRegisterQuery.where('student_id', studentId)
+        })
+      })
+      .preload('producer')
+  }
+
+  public async listCourseByProducer(userId: number) {
     return await Course.query().where('user_id', userId).preload('producer')
   }
 

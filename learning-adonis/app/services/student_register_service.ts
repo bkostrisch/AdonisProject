@@ -14,7 +14,7 @@ export default class StudentRegisterService {
     let studentClass = await StudentClass.query()
       .where('course_id', courseId)
       .whereRaw(
-        '(SELECT COUNT(*) FROM student_registers WHERE student_class_id = student_classes.id AND deleted_at IS NULL) < student_classes.capacity'
+        '(SELECT COUNT(*) FROM student_registers WHERE student_class_id = student_classes.id) < student_classes.capacity'
       )
       .first()
 
