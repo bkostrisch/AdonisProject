@@ -9,13 +9,7 @@
         @if (auth.user)
 
         <div class="flex items-center gap-3">
-
-            <a href="{{ route('profiles.edit') }}" class="text-xs">
-                Edit Profile
-            </a>
-           
-
-            <form method="POST" action="{{ route('auth.logout') }}">
+                 <form method="POST" action="{{ route('auth.logout') }}">
 
                 {{ csrfField() }}
                 <button type="submit" class="text-xs">

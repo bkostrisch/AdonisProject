@@ -1,9 +1,15 @@
-@let(action = route(('insert.student'), {slug: course.slug, cursoId: course.id}))
+@let(action = route(('insert.student'), {slug: course.slug, courseId: course.id}))
 
 @layout.admin({title: course.title})
 <h1>Insert Student to {{ course.title }}</h1>
 <form id="moduleForm" enctype="multipart/form-data" method="POST" action="{{ action }}" class="flex flex-col gap-4">
     {{ csrfField() }}
+
+    @if (flashMessages.values.success)
+    <p class="text-green-500 bg-green-50 p-3 rounded text-xs">
+        {{ flashMessages.values.success}}
+    </p>
+    @end
     <input type="hidden" value="{{course.id}}" name="courseId" />
     <div id="userList">
         @each(member in userList)

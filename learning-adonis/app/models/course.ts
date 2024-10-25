@@ -5,8 +5,9 @@ import User from './user.js'
 import Module from './module.js'
 import string from '@adonisjs/core/helpers/string'
 import StudentClass from './student_class.js'
+import Base from './softdelete.js'
 
-export default class Course extends BaseModel {
+export default class Course extends Base {
   @column({ isPrimary: true })
   declare id: number
 
@@ -24,9 +25,6 @@ export default class Course extends BaseModel {
 
   @column()
   declare slug: string
-
-  @column.dateTime({ serializeAs: null })
-  public deletedAt?: DateTime
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

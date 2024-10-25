@@ -25,7 +25,6 @@ export default class CoursesController {
         studentClassQuery.preload('studentRegister')
       })
       .firstOrFail()
-    course
 
     if (!auth.user) {
       return response.unauthorized('You must be logged in to create a course')
@@ -72,12 +71,9 @@ export default class CoursesController {
     return response.ok(course)
   }
 
-  public async delete({ params, response, auth }: HttpContext) {
-    if (!auth.user) {
-      return response.unauthorized('You must be logged in to create a course')
-    }
-    const producerId = auth.user.id
-    await this.courseService.deleteCourse(params.id, producerId)
-    return response.noContent()
+  public async softDelClass({ response, params }: HttpContext) {
+    const course = await Course.findOrFail(params.id)
+    await course.softDelete()
+    return response.redirect().back()
   }
 }

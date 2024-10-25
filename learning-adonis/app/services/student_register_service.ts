@@ -11,7 +11,6 @@ export default class StudentRegisterService {
       throw new Error('Student does not exist')
     }
 
-    console.log('curso id', courseId)
     let studentClass = await StudentClass.query()
       .where('course_id', courseId)
       .whereRaw(
@@ -29,14 +28,13 @@ export default class StudentRegisterService {
       expiresAt: DateTime.now().plus({ days: 30 }),
     })
 
-    /*await mail.send((message) => {
-      message
-        .to(student.email)
-        .from('no-reply@curso.com')
-        .subject(`Welcome to the Course`)
-        .htmlView('emails.bemvindo', { curso: courseId })
-    })
-        */
+    // await mail.send((message) => {
+    //   message
+    //     .to(student.email)
+    //     .from('no-reply@curso.com')
+    //     .subject(`Welcome to the Course`)
+    //     .htmlView('emails.bemvindo', { curso: courseId })
+    // })
 
     return studentRegister
   }

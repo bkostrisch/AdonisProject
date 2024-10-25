@@ -11,14 +11,26 @@ export default class StudentRegistersController {
     this.studentRegisterService = new StudentRegisterService()
   }
 
-  public async view({ view, params }: HttpContext) {
+  public async create({ view, params }: HttpContext) {
     const course = await Course.findByOrFail('slug', params.slug)
     const users = await User.query().where('role_id', 1)
 
-    return view.render('pages/admin/courses/students', { course, users })
+    return view.render('pages/admin/courses/students/students_create', { course, users })
   }
 
-  public async addStudent({ request, params, response }: HttpContext) {
+  public async list({ view, params }: HttpContext) {
+    const course = await Course.query()
+      .where('slug', params.slug)
+      .preload('studentClass', (studentClassQuery) => {
+        studentClassQuery.preload('studentRegister')
+      })
+      .firstOrFail()
+    const users = await User.query().where('role_id', 1)
+
+    return view.render('pages/admin/courses/students/students_list', { course, users })
+  }
+
+  public async addStudent({ session, request, response }: HttpContext) {
     console.log(request.input('students_id'))
     console.log(request.input('courseId'))
     const studentsIds = request.input('students_id')
@@ -27,8 +39,8 @@ export default class StudentRegistersController {
     for (const studentId of studentsIds) {
       await this.studentRegisterService.addStudent(courseId, Number.parseInt(studentId))
     }
-
-    return response.created()
+    session.flash({ success: 'Students Registered!' })
+    return response.redirect().back()
   }
 
   public async removeStudent({ params, response }: HttpContext) {

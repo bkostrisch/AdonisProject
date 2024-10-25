@@ -5,13 +5,14 @@
 
 
 @if(auth.user.roleId === Roles.ADMIN)
-
-<h1>{{auth.user.fullName}}'s Classes </h1>  
-<div class="flex gap-4">
-  <div>
-@if(auth.user.roleId === Roles.ADMIN)
-<a href="{{ route('courses.list') }}">Course Manager</a>
-@endif
+<div class="flex justify-between gap-4">
+  <div class="flex gap-4"> 
+      <h1>{{auth.user.fullName}}'s Classes </h1>
+    </div>
+    <div class="flex gap-4 mt-6">
+      @button({href:( route('courses.list'))}) 
+      Courses Manager
+      @end
   </div>
 </div>
 

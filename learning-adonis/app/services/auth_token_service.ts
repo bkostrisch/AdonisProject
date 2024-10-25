@@ -47,6 +47,6 @@ export default class AuthTokenService {
     const port = process.env.PORT || '3333'
     const url = `http://${host}:${port}/auth/token/verify/${token}`
 
-    return `Acessa ai acessa aiiii <a href="${url}" >Link para acesso</a>`
+    return `This is the link to access the platform <a href="${url}" >Click Here and start to learn</a>`
   }
 }

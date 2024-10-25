@@ -3,8 +3,9 @@ import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Course from './course.js'
 import VideoClass from './video_class.js'
+import Base from './softdelete.js'
 
-export default class Module extends BaseModel {
+export default class Module extends Base {
   @column({ isPrimary: true })
   declare id: number
 
@@ -28,7 +29,4 @@ export default class Module extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
-
-  @column.dateTime({ serializeAs: null })
-  public deletedAt?: DateTime
 }

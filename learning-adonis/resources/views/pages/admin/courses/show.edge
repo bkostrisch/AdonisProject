@@ -6,17 +6,6 @@
 
 <h1>{{ course.title }}</h1>
 
-@each (sdClass in course.studentClass)
-
-<div class="border border-slate-100 rounded p-3 shadow min-w-64 max-w-32 ">
-    <div class="pb-4 text-center flex flex-col break-words max-h-32 ">
-       {{sdClass.id}}
-    </div>
- 
-</div>
-
-@end
-
 <dl class="text-sm py-4">
     <div class="flex">
         <dt class="w-16 ">Producer:</dt>
@@ -38,16 +27,15 @@ No Description
 
 <div class="flex justify-between items-center gap-4">
     <h1>Módulos</h1>
-
     <div class="flex gap-4">
         <div>
-            @button({ href: route('students.register', { slug: course.slug, courseId: course.id }) })
-            Add Students
+            @button({ href: route('students.list', { slug: course.slug, courseId: course.id }) })
+            Students Manager
             @end
         </div>
         <div>
-            @button({ href: route('course.module', { slug: course.slug }) })
-            Create Module
+            @button({ href: route('modules.list', { slug: course.slug, courseId: course.id }) })
+            Modules Manager
             @end
         </div>
     </div>

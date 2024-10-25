@@ -27,6 +27,11 @@ router
   .use(middleware.admin())
 
 router
+  .delete('/courses/courses_list/:id', [CoursesController, 'softDelClass'])
+  .as('course.softdelete')
+  .use(middleware.admin())
+
+router
   .get('/courses/:slug', [CoursesController, 'show'])
   .as('course.show')
   .where('slug', router.matchers.slug())
@@ -37,9 +42,18 @@ router
   .where('slug', router.matchers.slug())
 
 router
-  .post('/courses/modules/:slug/:cursoId', [ModuleController, 'create'])
+  .post('/courses/modules/:slug/:courseId', [ModuleController, 'create'])
   .as('course.module.create')
   .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/modules/modules_list/:slug/:courseId', [ModuleController, 'list'])
+  .as('modules.list')
+  .use(middleware.admin())
+
+router
+  .delete('/courses/modules/modules_list/:id', [ModuleController, 'softDelClass'])
+  .as('modules.softdelete')
 
 router
   .get('/courses/video_classes/:slug/:moduleId', [VideoClassesController, 'view'])
@@ -69,8 +83,13 @@ router
   .as('video.classes.softdelete')
 
 router
-  .get('/courses/students/:slug/:courseId', [StudentRegistersController, 'view'])
+  .get('/courses/students/students_create/:slug/:courseId', [StudentRegistersController, 'create'])
   .as('students.register')
+  .where('slug', router.matchers.slug())
+
+router
+  .get('/courses/students/students_list/:slug/:courseId', [StudentRegistersController, 'list'])
+  .as('students.list')
   .where('slug', router.matchers.slug())
 
 router
