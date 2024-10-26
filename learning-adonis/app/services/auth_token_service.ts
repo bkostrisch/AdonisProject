@@ -43,7 +43,7 @@ export default class AuthTokenService {
   }
 
   public static generateTokenLoginHtmlUrl(token: string): string {
-    const host = process.env.HOST || 'localhost'
+    const host = process.env.HOST === '0.0.0.0' ? 'localhost' : process.env.HOST || 'localhost'
     const port = process.env.PORT || '3333'
     const url = `http://${host}:${port}/auth/token/verify/${token}`
 

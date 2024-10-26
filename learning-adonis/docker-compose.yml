@@ -1,0 +1,59 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3333:3333"
+      - "5173:5173" 
+    environment:
+      - TZ=UTC
+      - PORT=3333
+      - HOST=0.0.0.0
+      - LOG_LEVEL=info
+      - APP_KEY=luQ2mh9caOFONS9wQ0d-Pv0QB01-Hrxe
+      - NODE_ENV=development
+      - SESSION_DRIVER=cookie
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_DATABASE=Adonis6
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - MAIL_DRIVER=mailgun
+      - MAILGUN_API_KEY=54b6956d17924001f28a3039a5ba3f83-784975b6-7486c9f1
+      - MAILGUN_DOMAIN=sandbox3f2f1073d9b94570aaf28190aa5f852f.mailgun.org
+      - MAILGUN_FROM=postmaster@sandbox3f2f1073d9b94570aaf28190aa5f852f.mailgun.org
+    depends_on:
+      - postgres
+      - redis
+    command: |
+      sh -c "apt-get update && apt-get install -y postgresql-client && node ace migration:run && node ace db:seed &&
+             PGPASSWORD=password psql -h postgres -U postgres -d Adonis6 -c \"SELECT setval(pg_get_serial_sequence('roles', 'id'), COALESCE(MAX(id), 1)) FROM roles;\" &&
+             PGPASSWORD=password psql -h postgres -U postgres -d Adonis6 -c \"SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE(MAX(id), 1)) FROM users;\" &&
+             npm run dev"
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: Adonis6
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
