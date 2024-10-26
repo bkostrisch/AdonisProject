@@ -112,8 +112,7 @@ router
   .use(middleware.auth())
 
 // TOKEN LOGIN AND LOGIN CONTROLLER ROUTES
-router.get('/', [LoginController, 'show']).as('login').use(middleware.guest())
-router.get('auth/token', [TokenLoginController, 'show']).as('login.token').use(middleware.guest())
+router.get('/', [TokenLoginController, 'show']).as('login').use(middleware.guest())
 router
   .post('auth/token', [TokenLoginController, 'sendToken'])
   .as('sent.token')

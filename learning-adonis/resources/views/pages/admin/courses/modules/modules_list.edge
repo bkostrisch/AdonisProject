@@ -22,7 +22,6 @@
             <tr class="bg-white border-b">
                 <td class="px-2 py-4">{{ cModules.title }}</td>
                 <td class="px-2 py-4">
-                    <a href="">Edit</a>
                     <form method="POST" action="{{ route('modules.softdelete', { id: cModules.id }, { qs: { _method: 'DELETE' }}) }}">
                         {{ csrfField() }}
                         <button type="submit" class="text-red-500">

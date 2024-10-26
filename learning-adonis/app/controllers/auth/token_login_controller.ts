@@ -29,6 +29,8 @@ export default class TokenLoginController {
       AuthToken.EMAIL_SUBJECT,
       AuthTokenService.generateTokenLoginHtmlUrl(authToken.token)
     )
+
+    session.flash({ success: 'Token sent! Check your email!' })
     return view.render('pages/auth/token')
   }
 

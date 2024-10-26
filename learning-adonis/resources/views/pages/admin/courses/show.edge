@@ -27,6 +27,7 @@ No Description
 
 <div class="flex justify-between items-center gap-4">
     <h1>Módulos</h1>
+    @if(auth.user.roleId === Roles.ADMIN)
     <div class="flex gap-4">
         <div>
             @button({ href: route('students.list', { slug: course.slug, courseId: course.id }) })
@@ -39,6 +40,7 @@ No Description
             @end
         </div>
     </div>
+    @endif
 </div>
 <div class="flex flex-wrap -mx-6 gap-4 ">
 

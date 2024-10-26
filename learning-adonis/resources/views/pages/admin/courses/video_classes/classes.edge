@@ -1,7 +1,7 @@
 @layout({ title: modules.title })
 <div class="flex justify-between items-center gap-4">
     <h1>Video Classes for {{ modules.title }} </h1>
-
+@if(auth.user.roleId === Roles.ADMIN)
     <div class="flex gap-4">
         <div>
             @button({ href: route('video.classes.list', { slug: course.slug, moduleId: modules.id }) })
@@ -9,6 +9,7 @@
             @end
         </div>
     </div>
+    @endif
 </div>
 <h3 class="text-slate-500 bg-slate-100 p-6 rounded-lg">{{ modules.description }}</h3>
 

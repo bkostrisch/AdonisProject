@@ -6,7 +6,6 @@ export const registerValidator = vine.compile(
   vine.object({
     fullName: fullNameRule,
     email: vine.string().email().isUnique({ table: 'users', column: 'email' }),
-    password: vine.string().minLength(8),
   })
 )
 

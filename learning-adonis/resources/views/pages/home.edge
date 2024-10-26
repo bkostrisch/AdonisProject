@@ -3,16 +3,20 @@
 <meta name="description" content="Browse and Search our awesome course list" />
 @endslot
 
+
 <div class="flex justify-between gap-4">
   <div class="flex gap-4"> 
       <h1>{{auth.user.fullName}}'s Classes </h1>
     </div>
+@if(auth.user.roleId === Roles.ADMIN)
     <div class="flex gap-4 mt-6">
       @button({href:( route('courses.list'))}) 
       Courses Manager
       @end
   </div>
+@endif
 </div>
+
 
 
 <div class="flex flex-wrap -mx-6">

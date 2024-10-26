@@ -25,7 +25,6 @@
                 <td class="px-2 py-4">{{ register.user.fullName }}</td>
                 <td class="px-2 py-4">{{ register.studentClassId }}</td>
                 <td class="px-2 py-4">
-                    <a>Edit</a>
                     <form method="POST"
                         action="{{ route('students.softdelete', { id: register.id }, { qs: { _method: 'DELETE' }}) }}">
                         {{ csrfField() }}
