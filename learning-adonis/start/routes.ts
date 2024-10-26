@@ -33,6 +33,7 @@ router
   .get('admin/courses/show/:slug', [CoursesController, 'show'])
   .as('course.show')
   .where('slug', router.matchers.slug())
+  .use(middleware.auth())
 router
   .get('admin/courses/:slug?', [CoursesController, 'index'])
   .as('courses.index')
@@ -48,10 +49,12 @@ router
   .get('/courses/modules/:slug', [ModuleController, 'index'])
   .as('course.module')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .post('/courses/modules/:slug/:courseId', [ModuleController, 'create'])
   .as('course.module.create')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .get('/courses/modules/modules_list/:slug/:courseId', [ModuleController, 'list'])
   .as('modules.list')
@@ -66,10 +69,12 @@ router
   .get('/courses/video_classes/:slug/:moduleId', [VideoClassesController, 'view'])
   .as('module.classes')
   .where('slug', router.matchers.slug())
+  .use(middleware.auth())
 router
   .get('/courses/video_classes/createClasses/:slug/:moduleId', [VideoClassesController, 'index'])
   .as('video.classes')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .post('/courses/video_classes/createClasses/create/:slug/:moduleId', [
     VideoClassesController,
@@ -77,19 +82,23 @@ router
   ])
   .as('video.classes.create')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .get('/courses/video_classes/classes_list/:slug/:moduleId', [VideoClassesController, 'list'])
   .as('video.classes.list')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .delete('/courses/video_classes/classes_list/:id', [VideoClassesController, 'softDelClass'])
   .as('video.classes.softdelete')
+  .use(middleware.admin())
 
 // STUDENT REGISTERS CONTROLLERS ROUTES
 router
   .get('/courses/students/students_create/:slug/:courseId', [StudentRegistersController, 'create'])
   .as('students.register')
   .where('slug', router.matchers.slug())
+  .use(middleware.admin())
 router
   .get('/courses/students/students_list/:slug/:courseId', [StudentRegistersController, 'list'])
   .as('students.list')
@@ -102,7 +111,7 @@ router
 router
   .post('/admin/courses/insert_student', [StudentRegistersController, 'addStudent'])
   .as('insert.student')
-  .use(middleware.auth())
+  .use(middleware.admin())
 
 // REDIS CONTROLLER ROUTES
 router.delete('/redis/flush', [RedisController, 'flush']).as('redis.flush').use(middleware.auth())
