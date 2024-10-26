@@ -3,8 +3,15 @@ import StudentRegister from '#models/student_register'
 import User from '#models/user'
 import mail from '@adonisjs/mail/services/main'
 import { DateTime } from 'luxon'
+import MailService from './mail_service.js'
 
 export default class StudentRegisterService {
+  private mailService: MailService
+
+  constructor() {
+    this.mailService = new MailService()
+  }
+
   public async addStudent(courseId: number, studentId: number) {
     const student = await User.find(studentId)
     if (!student) {
@@ -28,13 +35,11 @@ export default class StudentRegisterService {
       expiresAt: DateTime.now().plus({ days: 30 }),
     })
 
-    // await mail.send((message) => {
-    //   message
-    //     .to(student.email)
-    //     .from('no-reply@curso.com')
-    //     .subject(`Welcome to the Course`)
-    //     .htmlView('emails.bemvindo', { curso: courseId })
-    // })
+    await this.mailService.sendEmail(
+      student.email,
+      'Welcome to the course',
+      `Você foi inserido no curso', ${courseId} `
+    )
 
     return studentRegister
   }
