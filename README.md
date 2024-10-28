@@ -2,21 +2,6 @@
 
 Este é o projeto finalizado de estudo do framework Adonis! O projeto final está bem diferente do inicial pois decidi que levaria isso como um estudo, fiz um breve curso onde desenvolvi uma aplicação com outros propósitos e, após aprender como implementar as funcionalidades, alterei o projeto para os fins requisitados nas regras de negócio.
 
-## Instruções de Utilização
-
-### 1 - Sobre os Logins
-
-Foi solicitado que o login seja passwordless, então dois emails foram criados para teste. Eles já vão ser inseridos ao banco ao rodar a seed. Isso pode acarretar em, ao registrar um novo usuário, a aplicação alegar que não pode inserir pois viola a pk do usuário. Não se preocupe, a partir da terceira tentativa ele irá registrar usuários normalmente, pois seguirá o fluxo de IDs do banco. Caso esses usuários não estivessem previamente cadastrados pela seed, esse erro não ocorreria. Isso pode ser testado não rodando a seed. Porém, como foi utilizado Mailgun para envio de emails, os emails precisariam estar previamente autorizados na plataforma. Como não teria como realizar isso com novos emails sem um contato direto, deixei esses dois já pré-autorizados.
-
-**Email 1 para resgate do código de acesso - Produtor/Administrador**  
-- email: `tokendasilvateste@gmail.com`
-- senha: `weedoit123`
-
-**Email 2 para resgate do código de acesso - Produtor/Administrador**  
-- email: `tokentesteadonis@gmail.com`
-- senha: `weedoit123`
-
-> ⚠️ **Importante:** Cheque a caixa de spam e considere o email como seguro. Depois, acesse a caixa de entrada e aí sim, o link estará clicável para acesso.
 
 ## Instruções para Acesso à Aplicação
 
